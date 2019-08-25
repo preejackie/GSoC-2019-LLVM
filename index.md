@@ -79,7 +79,7 @@ There are two ways to make speculative compilation work:
  
  LLVM IR before instrumentation:
  
- ```markdown
+ ```llvm
 declare dso_local void @foo()
 declare dso_local void @bar()
 
@@ -102,7 +102,7 @@ Here the main function contains 4 basic blocks, and based on the branch instruct
 
 LLVM IR after instrumentation: 
 
-```markdown
+```llvm
 %Class.Speculator = type opaque
 @__orc_speculator = external global %Class.Speculator
 @__orc_speculate.guard.for.main = internal local_unnamed_addr global i8 0, align 1
