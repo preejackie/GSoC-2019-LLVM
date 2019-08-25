@@ -144,7 +144,11 @@ In a Nutshell, for each function which call other functions, the IRSpeculationLa
 The compare instruction in `__orc_speculate.decision.block` : `br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry` guard us from re-entering into JIT on the second invocation of function.
 
 ### What is the SpeedUp?
+At the end, many people willing to see did we got any speedup or improvements in general? Especially in compilers, people love this word - performance. If you are one of them, then this is the section for you. 
+We have seen consistent speedup in all applications with our proof-of-concept “Speculation” model. 
 
+Here we compare between : Laziness + Speculation configuration with Orc Lazy Compilation configuration.
+![403.gcc Benchmark](https://github.com/preejackie/GSoC-2019-LLVM/blob/master/spec403.png)
 
 
 ```markdown
