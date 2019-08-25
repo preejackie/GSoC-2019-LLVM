@@ -38,25 +38,71 @@ Compilation flow:
     IR transformation Layer -> Compiler Layer -> Object Layer. 
 
 Inorder for our speculation to work we have to communicate between those layers: 
-We introduce a ImplSymbolMap class - this helps us to track the Implementation symbol and Impl JITDylib of facade symbols. This is the duplicate information we keep around and helps us to move forward with our proof-of-concept goal. We have decided to remove this information by sharing the single copy of this information between lazy and lazy+speculative compilation scheme. 
+We introduce a **_ImplSymbolMap_** class - this helps us to track the Implementation symbol and Impl JITDylib of facade symbols. This is the duplicate information we keep around and helps us to move forward with our proof-of-concept goal. We have decided to remove this information by sharing the single copy of this information between lazy and lazy+speculative compilation scheme. 
 
-Speculator:
+**_Speculator_**:
     This is an important class, it serves two responsibilities to us:
 Register which symbols are likely for the given symbol.
 Launch speculative compilation for likely symbols, when entered from the JIT’d code. 
 
-IRSpeculationLayer:
+**_IRSpeculationLayer_**:
     It follows a layer concept, it instruments the LLVM IR program representation with globals, and runtime calls into the JIT compiler which helps to jump back into ORC during application execution to launching compiles and return. 
 
-SpeculateQuery:
+**_SpeculateQuery_**:
     They are normally function objects, which query the given unit of IR (function) and return the which are all the likely next executable symbols. 
    
-   1. BlockFreqQuery : This heuristic computes the static block frequencies of function’s basic blocks. The blocks with higher frequencies tend to execute commonly. So the idea here is to get the blocks with high frequencies and extract the target functions of the llvm CallInst in that basic block.
+   1. **_BlockFreqQuery_** : This heuristic computes the static block frequencies of function’s basic blocks. The blocks with higher frequencies tend to execute commonly. So the idea here is to get the blocks with high frequencies and extract the target functions of the llvm CallInst in that basic block.
 
 But we observe that those blocks often occur inside a loop or that may be block with many predecessors, this means that are still essentially not covering blocks with calls that are nearer to the Entry Basic Block. 
 
-   2. SequenceBBQuery : This heuristic tries hard to find the actual sequence of basic blocks that occurs in a valid path from entry block of control flow graph (CFG) to the exit block of CFG. With this heuristic, we get the set of basic block in the order of their execution in all possible CFG path’s which have hot basic block’s.
+   2. **_SequenceBBQuery_** : This heuristic tries hard to find the actual sequence of basic blocks that occurs in a valid path from entry block of control flow graph (CFG) to the exit block of CFG. With this heuristic, we get the set of basic block in the order of their execution in all possible CFG path’s which have hot basic block’s.
 
+### Talk less, show me code!
+    Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
+Introduce Speculative Compilation [D63378](https://reviews.llvm.org/D63378) in Orc.
+SequenceBB query implementation [D66399](https://reviews.llvm.org/D66399). 
+Avoid race conditions in debug mode [D63377](https://reviews.llvm.org/D63377).
+Update kaleidoscope tutorial [D62491](https://reviews.llvm.org/D62491).
+Ensuring unique names for JITDylib [D62139](https://reviews.llvm.org/D62139).
+Remove unimplemented query [D66289](https://reviews.llvm.org/D66289)
+
+All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
+
+
+```markdown
+%Class.Speculator = type opaque
+@__orc_speculator = external global %Class.Speculator
+@__orc_speculate.guard.for.main = internal local_unnamed_addr global i8 0, align 1
+
+declare dso_local void @foo() 
+declare dso_local void @bar() 
+declare void @__orc_speculate_for(%Class.Speculator* %0, i64 %1)
+
+define dso_local i32 @main(){
+__orc_speculate.decision.block:
+  %guard.value = load i8, i8* @__orc_speculate.guard.for.main
+  %compare.to.speculate = icmp eq i8 %guard.value, 0
+  br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry
+
+__orc_speculate.block:                    
+  call void @__orc_speculate_for(%Class.Speculator* @__orc_speculator, i64 ptrtoint (i32 ()* @main to i64))
+  store i8 1, i8* @__orc_speculate.guard.for.main
+  br label %program.entry
+
+program.entry:                                               
+  ; omitted for beverity
+  %4 = icmp ne i32 %3, 0
+  br i1 %4, label %Ontrueblock, label %Onfalseblock
+Ontrueblock:                                               
+  call void @foo()
+  br label %exit
+Onfalseblock:                                            
+  call void @_Z1gv()
+  br label %exit
+exit:                                            
+  ret i32 0
+}
+```
 
 
 ```markdown
