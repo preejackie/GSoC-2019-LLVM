@@ -164,32 +164,13 @@ Lazy Scheme | Speculative Scheme
 pathfinder - 4.921s | 1.672s
 tinyexpr   - 5.000s | 4.100s
 dbms app   - 5.447s | 4.323s
-bufferapp  - 2.000s  | 1.324s
+bufferapp  - 2.000s | 1.324s
 
-```markdown
-Syntax highlighted code block
+We conclude that, by solidifying our infrastructure we can still squeeze maximum performance from the machine. 
 
-# Header 1
-## Header 2
-### Header 3
+### What's Next?
 
-- Bulleted
-- List
+1. I tried hard to include the LLVM dynamic profiling data into ORC, to effectively improve our heuristics, but I didn't figured how to integrate the profile sections in object (ELF) with ORC. We definitely include the profiling part to ORC, once we figured out how to use profile sections.
 
-1. Numbered
-2. List
+LLVM ORC is fairly new, it needs more features and efficient data structures & algorithms to gain more performance.
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/preejackie/GSoC-2019-LLVM/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
