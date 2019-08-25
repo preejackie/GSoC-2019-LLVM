@@ -10,6 +10,7 @@ Hi, I’m Praveen, this is a write-up of my Google Summer of Code 2019 with LLVM
    - [Talk less, show me code!](#talk-less-show-me-code)
    - [How IR is instrumented?](#how-ir-is-instrumented)
    - [What is the Speed Up?](#what-is-the-speed-up)
+   - [Current Status](#current-status)
 - [What's Next?](#whats-next)
 - [What I learn?](#what-i-learn)
 
@@ -180,6 +181,10 @@ dbms app   - 5.447s | 4.323s
 bufferapp  - 2.000s | 1.324s
 
 We conclude that by solidifying our infrastructure we can still squeeze maximum performance from the machine. 
+
+### Current Status
+
+You can check out the llvm and you can use the work! The committed code is self-contained, we have also added an example custom JIT Stack with Speculation scheme we hope it will serve as an example for people to update and configure their JIT stacks. You can find the example in main llvm trunk - [SpeculativeJIT](https://reviews.llvm.org/source/llvm-github/browse/master/llvm/examples/SpeculativeJIT/)
 
 ### What's Next?
 
