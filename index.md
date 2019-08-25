@@ -149,7 +149,7 @@ We have seen consistent speedup in all applications with our proof-of-concept â€
 
 Here we compare between : Laziness + Speculation configuration with Orc Lazy Compilation configuration.
 
-![403.gcc Benchmark](https://drive.google.com/file/d/1uL4phl0Cup4Mnz34sFoz57YcfYvogjvZ/view)
+![403.gcc Benchmark](https://1.bp.blogspot.com/-R5A829uxtbo/XWKriVW_p8I/AAAAAAAABIE/CQhO6RZxgAAWqRV5sQWIoopWuI9ptTgGwCLcBGAs/s320/specwait.jpg)
 
 These results are for the SPEC 403.gcc benchmark program, we see the speedup of  > 40% over Lazy compilation counterpart, with 10 dedicated compile threads we reduce the total execution time of application (wall clock time) from 17.4 seconds to 9.6 seconds.
 
