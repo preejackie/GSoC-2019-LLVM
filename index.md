@@ -71,8 +71,40 @@ Since this is a new feature, we like to introduce it as a big changeset by follo
 All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
 
 ### How code is instrumented?
+There are two ways to make speculative compilation work:
+1. Through Instrumentation
+2. Embedding a separate entity in Orc itself to perform speculation.
+
+ For a proof-of-concept, as things currently stand we perform speculation through LLVM IR Instrumentation.
+ 
+ LLVM IR before instrumentation:
+ 
+ ```markdown
+`
+declare dso_local void @foo()
+declare dso_local void @bar()
+
+define dso_local i32 @main() { 
+entry:
+  ; omitted for beverity
+  %4 = icmp ne i32 %3, 0
+  br i1 %4, label %Ontrueblock, label %Onfalseblock
+Ontrueblock:                                                
+  call void @foo()
+  br label %exit
+Onfalseblock:                                           
+  call void @bar()
+  br label %exit
+exit:
+  ret i32 0
+}` 
+ ```
+Here the main function contains 4 basic blocks, and based on the branch instruction: `%4 = icmp ne i32 %3, 0`. Control jumps either to Ontrueblock or Onfalseblock and call either foo or bar respectively.
+
+LLVM IR after instrumentation: 
+
 ```markdown
-%Class.Speculator = type opaque
+`%Class.Speculator = type opaque
 @__orc_speculator = external global %Class.Speculator
 @__orc_speculate.guard.for.main = internal local_unnamed_addr global i8 0, align 1
 
@@ -103,8 +135,15 @@ Onfalseblock:
   br label %exit
 exit:                                            
   ret i32 0
-}
+}`
+
 ```
+Instrumentation code emit declarations, definitions of global and add two new basic block’s namely `__orc_speculate.decision.block` and `__orc_speculate.block` which mutate the CFG structure of @main function. 
+
+In a Nutshell, for each function which call other functions, the IRSpeculationLayer::emit method create a guard.value which is global i8 with internal linkage and initialize with 0. Upon the execution of `@main`, we check whether we executed the function before or not, if the function is not executed yet, the control jumps to `__orc.speculate.block` and call `__orc_speculate_for`, passing the function’s own compiled address, this jumps back into the Orc and launch speculative compiles of very likely functions of function @main.
+
+The compare instruction in `__orc_speculate.decision.block` : `br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry` guard us from re-entering into JIT on the second invocation of function.
+
 
 
 ```markdown
