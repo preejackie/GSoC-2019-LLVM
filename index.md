@@ -139,7 +139,7 @@ exit:
 ```
 Instrumentation code emit declarations, definitions of global and add two new basic block’s namely `__orc_speculate.decision.block` and `__orc_speculate.block` which mutate the CFG structure of @main function. 
 
-In a Nutshell, for each function which call other functions, the IRSpeculationLayer::emit method create a guard.value which is global i8 with internal linkage and initialize with 0. Upon the execution of `@main`, we check whether we executed the function before or not, if the function is not executed yet, the control jumps to `__orc.speculate.block` and call `__orc_speculate_for`, passing the function’s own compiled address, this jumps back into the Orc and launch speculative compiles of very likely functions of function @main.
+In a Nutshell, for each function which call other functions, the IRSpeculationLayer::emit method create a guard.value which is global i8 with internal linkage and initialize with 0. Upon the execution of `@main`, we check whether we executed the function before or not, if the function is not executed yet, the control jumps to `__orc.speculate.block` and call `__orc_speculate_for`, passing the function’s own compiled address, this jumps back into the Orc and launch speculative compiles of very likely functions of function `@main`.
 
 The compare instruction in `__orc_speculate.decision.block` : `br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry` guard us from re-entering into JIT on the second invocation of function.
 
