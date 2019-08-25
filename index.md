@@ -149,9 +149,7 @@ We have seen consistent speedup in all applications with our proof-of-concept â€
 
 Here we compare between : Laziness + Speculation configuration with Orc Lazy Compilation configuration.
 
-<img src="https://github.com/preejackie/clangs-fixes-local/blob/master/imago/dense.png" width="400" />
-
-![]("https://github.com/preejackie/GSoC-2019-LLVM/blob/master/specwait.png")
+![specwait.png]("https://github.com/preejackie/GSoC-2019-LLVM/blob/master/specwait.png")
 
 These results are for the SPEC 403.gcc benchmark program, we see the speedup of  > 40% over Lazy compilation counterpart, with 10 dedicated compile threads we reduce the total execution time of application (wall clock time) from 17.4 seconds to 9.6 seconds.
 
