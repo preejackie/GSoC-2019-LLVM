@@ -58,17 +58,19 @@ But we observe that those blocks often occur inside a loop or that may be block 
    2. **_SequenceBBQuery_** : This heuristic tries hard to find the actual sequence of basic blocks that occurs in a valid path from entry block of control flow graph (CFG) to the exit block of CFG. With this heuristic, we get the set of basic block in the order of their execution in all possible CFG path’s which have hot basic block’s.
 
 ### Talk less, show me code!
-    Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
-Introduce Speculative Compilation [D63378](https://reviews.llvm.org/D63378) in Orc.
-SequenceBB query implementation [D66399](https://reviews.llvm.org/D66399). 
-Avoid race conditions in debug mode [D63377](https://reviews.llvm.org/D63377).
-Update kaleidoscope tutorial [D62491](https://reviews.llvm.org/D62491).
-Ensuring unique names for JITDylib [D62139](https://reviews.llvm.org/D62139).
-Remove unimplemented query [D66289](https://reviews.llvm.org/D66289)
+
+Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
+
+- Introduce Speculative Compilation [D63378](https://reviews.llvm.org/D63378) in Orc.
+- SequenceBB query implementation [D66399](https://reviews.llvm.org/D66399). 
+- Avoid race conditions in debug mode [D63377](https://reviews.llvm.org/D63377).
+- Update kaleidoscope tutorial [D62491](https://reviews.llvm.org/D62491).
+- Ensuring unique names for JITDylib [D62139](https://reviews.llvm.org/D62139).
+- Remove unimplemented query [D66289](https://reviews.llvm.org/D66289)
 
 All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
 
-
+### How code is instrumented?
 ```markdown
 %Class.Speculator = type opaque
 @__orc_speculator = external global %Class.Speculator
