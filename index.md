@@ -143,6 +143,8 @@ In a Nutshell, for each function which call other functions, the IRSpeculationLa
 
 The compare instruction in `__orc_speculate.decision.block` : `br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry` guard us from re-entering into JIT on the second invocation of function.
 
+### What is the SpeedUp?
+
 
 
 ```markdown
