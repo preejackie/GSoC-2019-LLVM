@@ -10,7 +10,7 @@ It is a fairly new LLVM Concurrent JIT Infrastructure, it is not very tightly co
 
 You can add your program representations to JIT and compilers that know how to reduce your program representation to machine code. ORC know when and how to run your compilers for you, which I call the orc’s spell :) With the help of orc’s spell you can add multiple compilers and multiple program representations to your JIT, which eventually turns your JIT into a Compiler orchestration system, Isn’t exciting? 
 
-ORC triggers the compilation of symbols (data,function) when it is looked up via (ExecutionSession::lookup). It also manages concurrent compilation for you: multiple compilers can run at once, and multiple concurrent lookups can be made for symbols.
+ORC triggers the compilation of symbols (data,function) when it is looked up via `ExecutionSession::lookup`. It also manages concurrent compilation for you: multiple compilers can run at once, and multiple concurrent lookups can be made for symbols.
 
 It also supports lazy compilation - that is you compile when you need it. It is an important feature  to have in Just in time Compilation Engine. It helps the Apps to start faster without paying ahead of time compilation cost , but as you imagine you can’t run your program until it is converted into binary, there is a cost to compilation during the execution of App. Oh, by knowing about ORC we eventually jump into my project. Great, right?
 
@@ -27,7 +27,7 @@ This wouldn’t have happened without my 2 mentors - Lang Hames & David Blaikie.
     They replied to all of my mails, chats & questions :) I learn a ton of great stuff from them. Honestly, I’m very lucky to work with them. They ultimately became my role model.
 
 ### My Path 
-At first, I knew nothing about ORC. I have to understand them to work in them. This was tough, because I didn’t have any experience with JIT or Linkers before. There is no detailed doc at that time, so I choose to read the entire project & add llvm::errs to understand what is really going under the hood. It was tricky at first, but eventually I understand the Orc’s spell. It was rewarding, really!! 
+At first, I knew nothing about ORC. I have to understand them to work in them. This was tough, because I didn’t have any experience with JIT or Linkers before. There is no detailed doc at that time, so I choose to read the entire project & add `llvm::errs` to understand what is really going under the hood. It was tricky at first, but eventually I understand the Orc’s spell. It was rewarding, really!! 
     
 The primary aim is to develop a proof-of-concept of speculative compilation to understand how it works, whether we can improve & solidify in future llvm release for all to use.
 
@@ -149,6 +149,13 @@ We have seen consistent speedup in all applications with our proof-of-concept �
 
 Here we compare between : Laziness + Speculation configuration with Orc Lazy Compilation configuration.
 ![403.gcc Benchmark](https://github.com/preejackie/GSoC-2019-LLVM/blob/master/spec403.png)
+
+These results are for the SPEC 403.gcc benchmark program, we see the speedup of  > 40% over Lazy compilation counterpart, with 10 dedicated compile threads we reduce the total execution time of application (wall clock time) from 17.4 seconds to 9.6 seconds.
+
+![403.gcc.wait.time](https://github.com/preejackie/GSoC-2019-LLVM/blob/master/specwait.png)
+
+Y-axis, represents the total time spent in symbol lookup, (amount of time execution thread wait to get runnable code for functions). As we see from the graph, by having at least two dedicated compile threads we can reduce the total wait time over 35%.
+
 
 
 ```markdown
