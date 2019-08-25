@@ -59,9 +59,13 @@ Since this is a new feature, we like to introduce it as a big changeset by follo
 - This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack [D63378](https://reviews.llvm.org/D63378) in Orc.
 
 - This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards. [D66399](https://reviews.llvm.org/D66399).
+
 - Avoid race conditions in debug mode [D63377](https://reviews.llvm.org/D63377).
+
 - Update kaleidoscope tutorial chapter 3 to follow ORC version 2 JIT APIs  [D62491](https://reviews.llvm.org/D62491).
-- Ensuring unique names for JITDylib [D62139](https://reviews.llvm.org/D62139).
+
+- Ensuring unique names for facade JITDylib's for better understanding while debugging [D62139](https://reviews.llvm.org/D62139).
+
 - Remove unimplemented query [D66289](https://reviews.llvm.org/D66289)
 
 All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
