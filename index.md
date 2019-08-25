@@ -8,6 +8,10 @@ Hi, I’m Praveen, this is a write-up of my Google Summer of Code 2019 with LLVM
 - [Speculative Compilation](#speculative-compilation)
    - [High Level Design](#high-level-design)
    - [Talk less, show me code!](#talk-less-show-me-code)
+   - [How IR is instrumented?](#how-ir-is-instrumented)
+   - [What is the Speed Up?](#what-is-the-speed-up)
+- [What's Next?](#what's-next)
+- [What I learn?](#what-i-learn)
 
 ### LLVM Community
 LLVM is not a million lines of code, but it is a group of people who make it possible :) This applies to all Open Source Orgs. Over time I find the culture in LLVM is extremely friendly (mainly for newcomers). LLVM developers are very friendly and kind enough to explain whatever LLVM concepts. I used to ask very stupid questions like (hey, how to traverse a Basic Block) and still does :)  Basically, they are just a bunch of cool folks! I highly recommend anyone to be part of this awesome community. Seriously, you can take my words.
