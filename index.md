@@ -80,7 +80,6 @@ There are two ways to make speculative compilation work:
  LLVM IR before instrumentation:
  
  ```markdown
-`
 declare dso_local void @foo()
 declare dso_local void @bar()
 
@@ -97,14 +96,14 @@ Onfalseblock:
   br label %exit
 exit:
   ret i32 0
-}` 
+}
  ```
 Here the main function contains 4 basic blocks, and based on the branch instruction: `%4 = icmp ne i32 %3, 0`. Control jumps either to Ontrueblock or Onfalseblock and call either foo or bar respectively.
 
 LLVM IR after instrumentation: 
 
 ```markdown
-`%Class.Speculator = type opaque
+%Class.Speculator = type opaque
 @__orc_speculator = external global %Class.Speculator
 @__orc_speculate.guard.for.main = internal local_unnamed_addr global i8 0, align 1
 
@@ -135,7 +134,7 @@ Onfalseblock:
   br label %exit
 exit:                                            
   ret i32 0
-}`
+}
 
 ```
 Instrumentation code emit declarations, definitions of global and add two new basic block’s namely `__orc_speculate.decision.block` and `__orc_speculate.block` which mutate the CFG structure of @main function. 
