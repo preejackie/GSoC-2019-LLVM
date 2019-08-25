@@ -158,6 +158,7 @@ These results are for the SPEC 403.gcc benchmark program, we see the speedup of 
 Y-axis, represents the total time spent in symbol lookup, (amount of time execution thread wait to get runnable code for functions). As we see from the graph, by having at least two dedicated compile threads we can reduce the total wait time over 35%.
 
 Our proof-of-concept technique is also performing well in lightweight apps:
+
 **Execution Time** 
 
 Lazy Scheme | Speculative Scheme
