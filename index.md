@@ -153,7 +153,7 @@ Here we compare between : Laziness + Speculation configuration with Orc Lazy Com
 
 These results are for the SPEC 403.gcc benchmark program, we see the speedup of  > 40% over Lazy compilation counterpart, with 10 dedicated compile threads we reduce the total execution time of application (wall clock time) from 17.4 seconds to 9.6 seconds.
 
-![403.gcc.wait.time](https://github.com/preejackie/GSoC-HPx/blob/master/specwait.png)
+![403.gcc.wait.time](https://github.com/preejackie/clangs-fixes-local/blob/master/imago/specwait.jpg)
 
 Y-axis, represents the total time spent in symbol lookup, (amount of time execution thread wait to get runnable code for functions). As we see from the graph, by having at least two dedicated compile threads we can reduce the total wait time over 35%.
 
