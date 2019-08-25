@@ -1,9 +1,12 @@
-## Here we are Orc's
+## Introduction
 
 Hi, I’m Praveen, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. I hope many of you know what LLVM is if not, there is a plethora of content available over the web, check it out! 
 
-### LLVM Culture
+### LLVM
 LLVM is not a million lines of code, but it is a group of people who make it possible :) This applies to all Open Source Orgs. Over time I find the culture in LLVM is extremely friendly (mainly for newcomers). LLVM developers are very friendly and kind enough to explain whatever LLVM concepts. I used to ask very stupid questions like (hey, how to traverse a Basic Block) and still does :)  Basically, they are just a bunch of cool folks! I highly recommend anyone to be part of this awesome community. Seriously, you can take my words.
+
+This wouldn’t have happened without my 2 mentors - Lang Hames & David Blaikie. Over this course of time, they gave me incredible support and helped me to understand LLVM, development process, how ORC works, etc. They both work on LLVM as their day job, Cool right?
+    They replied to all of my emails, chats & questions :) I learn a ton of great stuff from them. Honestly, I’m very lucky to work with them. They ultimately became my role model.
 
 ### What is ORC?
 In llvm, we already have ELF (Executable & Linking Format) and DWARF(Debugging With Attributed Record Formats) so include bad guys also - ORC's, just kidding :) 
@@ -15,22 +18,14 @@ ORC triggers the compilation of symbols (data, function) when it is looked up vi
 
 It also supports lazy compilation - that is you compile when you need it. It is an important feature  to have in Just in time Compilation Engine. It helps the Apps to start faster without paying ahead of time compilation cost, but as you imagine you can’t run your program until it is converted into binary, there is a cost to compilation during the execution of App. Oh, by knowing about ORC we eventually jump into my project. Great, right?
 
-### Speculative Compilation:
-This is a project I spend my summer on!. The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
-    Orc supports concurrent compilation - the key idea here is to use this feature to lookup symbols early before they even get executed. By using the additional core’s you can reduce your total execution time :) But randomly speculating should hurt your performance, but making good choices during speculation should improve your performance.
-    That’s the key ingredient of this entire work, speculating intelligently, that is knowing which function will likely be called next. 
-
-### Time Travel
-Travel back in time with me to the start of this project :) I was preparing for GSoC with LLVM before GSoC program officially starts. I’m eyeing on every mail in LLVM dev listing for keywords like GSoC, projects, etc. But unfortunately, I didn’t find any projects that are listed a good suit for me. Even I tried to work on two projects to write a proposal, but eventually, I lost interest in those two also. There only two weeks to write a proposal but I still haven't figured out what I’m going to do. But I have a habit of just watching LLVM dev meetings talks :). Eventually, I came across - LLVM next-generation JIT APIs - keynote talk. It feels interesting to me, so I contacted the speaker over the mail. And it happens!
-
-### My Yoda's
-This wouldn’t have happened without my 2 mentors - Lang Hames & David Blaikie. Over this course of time, they gave me incredible support and helped me to understand LLVM, development process, how ORC works, etc. They both work on LLVM as their day job, Cool right?
-    They replied to all of my emails, chats & questions :) I learn a ton of great stuff from them. Honestly, I’m very lucky to work with them. They ultimately became my role model.
-
-### My Path 
 At first, I knew nothing about ORC. I have to understand them to work in them. This was tough because I didn’t have any experience with JIT or Linkers before. There is no detailed doc at that time, so I choose to read the entire project & add `llvm::errs` to understand what is really going under the hood. It was tricky at first, but eventually, I understand the Orc’s spell. It was rewarding, really!! 
     
 The primary aim is to develop a proof-of-concept of speculative compilation to understand how it works, whether we can improve & solidify in future llvm release for all to use.
+
+## Speculative Compilation:
+This is a project I spend my summer on!. The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
+    Orc supports concurrent compilation - the key idea here is to use this feature to lookup symbols early before they even get executed. By using the additional core’s you can reduce your total execution time :) But randomly speculating should hurt your performance, but making good choices during speculation should improve your performance.
+    That’s the key ingredient of this entire work, speculating intelligently, that is knowing which function will likely be called next. 
 
 ### Contributions
 ORC supports orthogonal feature set, so you can mix and match to build your custom JIT stack and play around it. But Speculative Compilation is non-orthogonal, it is bounded with Lazy compilation. ORC has layer concept which processes your program representation and emits the result to the layer below - examples of a layer in the trunk are LLVM IR transformation layer, Compiler layer, Object Layer
