@@ -35,7 +35,7 @@ At first, I knew nothing about ORC. I have to understand them to work in them. T
 The primary aim is to develop a proof-of-concept of speculative compilation to understand how it works, whether we can improve & solidify in future llvm release for all to use. Now that we know about ORC we can jump into my project, Are you ready?
 
 ## Speculative Compilation:
-This is a project I spend my summer on! The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
+This is the project I spend my summer on! The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
     Orc supports concurrent compilation - the key idea here is to use this feature to lookup symbols early before they even get executed. By using the additional core’s you can reduce your total execution time :) But how do we choose what to compile early? That’s the key ingredient of this entire work, speculating intelligently, that is knowing which function will likely be called next. 
 
 ### High Level Design
@@ -142,7 +142,7 @@ Ontrueblock:
   call void @foo()
   br label %exit
 Onfalseblock:                                            
-  call void @_Z1gv()
+  call void @bar()
   br label %exit
 exit:                                            
   ret i32 0
@@ -151,12 +151,12 @@ exit:
 ```
 Instrumentation code emit declarations, definitions of global and add two new basic block’s namely `__orc_speculate.decision.block` and `__orc_speculate.block` which mutate the CFG structure of @main function. 
 
-In a Nutshell, for each function which calls other functions, the IRSpeculationLayer::emit method create a guard.value which is global i8 with internal linkage and initialize with 0. Upon the execution of `@main`, we check whether we executed the function before or not, if the function is not executed yet, the control jumps to `__orc.speculate.block` and call `__orc_speculate_for`, passing the function’s own compiled address, this jumps back into the Orc and launch speculative compiles of very likely functions of function `@main`.
+In a nutshell, for each function which calls other functions, the IRSpeculationLayer::emit method create a guard.value which is global i8 with internal linkage and initialize with 0. Upon the execution of `@main`, we check whether we executed the function before or not, if the function is not executed yet, the control jumps to `__orc.speculate.block` and call `__orc_speculate_for`, passing the function’s own compiled address, this jumps back into the Orc and launch speculative compiles of very likely functions of function `@main`.
 
 The compare instruction in `__orc_speculate.decision.block` : `br i1 %compare.to.speculate, label %__orc_speculate.block, label %program.entry` guard us from re-entering into JIT on the second invocation of function.
 
 ### What is the Speed Up?
-In the end, many people willing to see did we got any speedup or improvements in general? Especially in compilers, people love this word - performance. If you are one of them, then this is the section for you. 
+In the end, many people wanted to know: did we get any speedup or improvements in general? Especially in compilers, people love this word - performance. If you are one of them, then this is the section for you. 
 We have seen consistent speedup in all applications with our proof-of-concept “Speculation” model. 
 
 Here we compare Laziness + Speculation configuration with Orc Lazy Compilation configuration.
