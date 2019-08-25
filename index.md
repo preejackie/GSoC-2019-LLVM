@@ -56,17 +56,17 @@ But we observe that those blocks often occur inside a loop or that may be a bloc
 
 Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
 
-- This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack [D63378](https://reviews.llvm.org/D63378) in Orc.
+- [D63378](https://reviews.llvm.org/D63378) : This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack.
 
-- This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards. [D66399](https://reviews.llvm.org/D66399).
+- [D66399](https://reviews.llvm.org/D66399) : This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards.
 
-- Avoid race conditions in debug mode [D63377](https://reviews.llvm.org/D63377).
+- [D63377](https://reviews.llvm.org/D63377) : Avoid race conditions in debug mode.
 
-- Update kaleidoscope tutorial chapter 3 to follow ORC version 2 JIT APIs  [D62491](https://reviews.llvm.org/D62491).
+- [D62491](https://reviews.llvm.org/D62491) : Update kaleidoscope tutorial chapter 3 to follow ORC version 2 JIT APIs.
 
-- Ensuring unique names for facade JITDylib's for better understanding while debugging [D62139](https://reviews.llvm.org/D62139).
+- [D62139](https://reviews.llvm.org/D62139) : Ensuring unique names for facade JITDylib's for better understanding while debugging.
 
-- Remove unimplemented query [D66289](https://reviews.llvm.org/D66289)
+- [D66289](https://reviews.llvm.org/D66289) : Remove unimplemented query.
 
 All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
 
