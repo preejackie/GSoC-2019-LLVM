@@ -3,8 +3,10 @@
 Hi, I’m Praveen Velliengiri, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. LLVM is a modern compiler toolchain, checkout [llvm](https://llvm.org/). 
 
 Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
+
 [1.1]: http://i.imgur.com/wWzX9uB.png (twitter icon with padding)
 [2.1]: http://i.imgur.com/9I6NRUm.png (github icon with padding)
+
 [1]: https://twitter.com/PreeJackie
 [2]: http://www.github.com/preejackie
 ### Contents-
