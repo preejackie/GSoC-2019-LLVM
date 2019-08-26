@@ -1,6 +1,8 @@
 ## Here we are Orcs
 
-Hi, I’m Praveen Velliengiri, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. LLVM is a modern compiler toolchain, checkout [llvm](https://llvm.org/). Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
+Hi, I’m Praveen Velliengiri, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. LLVM is a modern compiler toolchain, checkout [llvm](https://llvm.org/). 
+
+Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
 
 [1.1]: http://i.imgur.com/tXSoThF.png (twitter icon with padding)
 [2.1]: http://i.imgur.com/0o48UoR.png (github icon with padding)
