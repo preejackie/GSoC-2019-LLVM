@@ -1,6 +1,6 @@
 ## Here we are Orcs
 
-Hi, I’m Praveen Velliengiri, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. LLVM is a modern compiler toolchain, checkout [llvm](https://llvm.org/). 
+Hi, I’m Praveen Velliengiri, this is a write-up of my Google Summer of Code 2019 with LLVM Compiler Infrastructure. LLVM is a modern compiler toolchain, checkout [here](https://llvm.org/). 
 Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
 
 [1.1]: http://i.imgur.com/wWzX9uB.png (twitter icon with padding)
@@ -18,6 +18,7 @@ Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
    - [Current Status](#current-status)
 - [What's Next?](#whats-next)
 - [What I learn?](#what-i-learn)
+
 ### LLVM Community
 LLVM is not a million lines of code, but it is a group of people who make it possible :) This applies to all Open Source Orgs. Over time I find the culture in LLVM is extremely friendly (mainly for newcomers). LLVM developers are very friendly and kind enough to explain whatever LLVM concepts. I used to ask very stupid questions like (hey, how to traverse a Basic Block) and still does :)  Basically, they are just a bunch of cool folks! I highly recommend anyone to be part of this awesome community. Seriously, you can take my words.
 
@@ -25,7 +26,7 @@ This wouldn’t have happened without my 2 mentors - Lang Hames & David Blaikie.
     They replied to all of my emails, chats & questions :) I learn a ton of great stuff from them. Honestly, I’m very lucky to work with them. They ultimately became my role model.
 
 ### What is ORC?
-In llvm, we already have ELF (Executable & Linking Format) and DWARF(Debugging With Attributed Record Formats) so include bad guys also - ORC's, just kidding :) 
+In LLVM, we already have ELF (Executable & Linking Format) and DWARF(Debugging With Attributed Record Formats) so include bad guys also - ORC's, just kidding :) 
 ORC is a fairly new LLVM Concurrent JIT Infrastructure, it is not very tightly coupled with LLVM though. You can write your own compilers for your own program representations (like AST, IR, or anything you call) and you can freely use components of ORC. To understand ORC you have to think from the Linker’s Perspective, that is how I can link the symbols, how I can resolve and relocate symbols? 
 
 You can add your program representations to JIT and compilers that know how to reduce your program representation to machine code. ORC know when and how to run your compilers for you, which I call the orc’s spell :) With the help of orc’s spell you can add multiple compilers and multiple program representations to your JIT, which eventually turns your JIT into a Compiler orchestration system, Isn’t exciting? 
@@ -36,7 +37,7 @@ It also supports lazy compilation - that is you compile when you need it. It is 
 
 At first, I knew nothing about ORC. I have to understand them to work in them. This was tough because I didn’t have any experience with JIT or Linkers before. There is no detailed doc at that time, so I choose to read the entire project & add `llvm::errs` to understand what is really going under the hood. It was tricky at first, but eventually, I understand the Orc’s spell. It was rewarding, really!! 
     
-The primary aim is to develop a proof-of-concept of speculative compilation to understand how it works, whether we can improve & solidify in future llvm release for all to use. Now that we know about ORC we can jump into my project, Are you ready?
+The primary aim is to develop a proof-of-concept of speculative compilation to understand how it works, whether we can improve & solidify in future LLVM release for all to use. Now that we know about ORC we can jump into my project, Are you ready?
 
 ## Speculative Compilation:
 This is the project I spend my summer on! The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
@@ -62,7 +63,7 @@ Launch speculative compilation for likely symbols, when entered from the JIT’d
 **_SpeculateQuery_**:
     They are normally function objects, which query the given unit of IR (function) and return the which are all the likely next executable symbols. 
    
-   1. **_BlockFreqQuery_** : This heuristic computes the static block frequencies of function’s basic blocks. The blocks with higher frequencies tend to execute commonly. So the idea here is to get the blocks with high frequencies and extract the target functions of the llvm CallInst in that basic block.
+   1. **_BlockFreqQuery_** : This heuristic computes the static block frequencies of function’s basic blocks. The blocks with higher frequencies tend to execute commonly. So the idea here is to get the blocks with high frequencies and extract the target functions of the LLVM CallInst in that basic block.
 
 But we observe that those blocks often occur inside a loop or that may be a block with many predecessors, this means that are still essentially not covering blocks with calls that are nearer to the Entry Basic Block. 
 
@@ -84,7 +85,7 @@ Since this is a new feature, we like to introduce it as a big changeset by follo
 
 - [D66289](https://reviews.llvm.org/D66289) : Remove unimplemented query.
 
-All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in llvm trunk. 
+All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in LLVM trunk. 
 
 ### How IR is instrumented?
 There are two ways to make speculative compilation work:
@@ -188,7 +189,7 @@ We conclude that by solidifying our infrastructure we can still squeeze maximum 
 
 ### Current Status
 
-You can check out the llvm and you can use the work! The committed code is self-contained, we have also added an example custom JIT Stack with Speculation scheme we hope it will serve as an example for people to update and configure their JIT stacks. You can find the example in main llvm trunk - [SpeculativeJIT](https://reviews.llvm.org/source/llvm-github/browse/master/llvm/examples/SpeculativeJIT/)
+You can check out the LLVM and you can use the work! The committed code is self-contained, we have also added an example custom JIT Stack with Speculation scheme we hope it will serve as an example for people to update and configure their JIT stacks. You can find the example in main LLVM trunk - [SpeculativeJIT](https://reviews.llvm.org/source/llvm-github/browse/master/llvm/examples/SpeculativeJIT/)
 
 ### What's Next?
 
