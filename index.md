@@ -49,6 +49,7 @@ This is the project I spend my summer on! The main aim of this project is to hid
 - Writing custom JIT stacks.
 - Benchmarking our prototype
 
+
 ### High Level Design
 ORC supports orthogonal feature set, so you can mix and match to build your custom JIT stack and play around it. But Speculative Compilation is non-orthogonal, it is bounded with Lazy compilation. ORC has layer concept which processes your program representation and emits the result to the layer below - examples of a layer in the trunk are LLVM IR transformation layer, Compiler layer, Object Layer
 
