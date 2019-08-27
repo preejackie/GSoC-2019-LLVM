@@ -42,11 +42,13 @@ The primary aim is to develop a proof-of-concept of speculative compilation to u
 ## Speculative Compilation:
 This is the project I spend my summer on! The main aim of this project is to hide compilation time which is mingled with the App execution time. Okay, but how to do that? 
     Orc supports concurrent compilation - the key idea here is to use this feature to lookup symbols early before they even get executed. By using the additional core’s you can reduce your total execution time :) But how do we choose what to compile early? That’s the key ingredient of this entire work, speculating intelligently, that is knowing which function will likely be called next.
+    
 ### Key Goals
 - Infrastructure to support speculation.
 - Building LLVM IR analysis queries to select likely functions.
 - Writing custom JIT stacks.
-- Benchmarking 
+- Benchmarking our prototype
+
 ### High Level Design
 ORC supports orthogonal feature set, so you can mix and match to build your custom JIT stack and play around it. But Speculative Compilation is non-orthogonal, it is bounded with Lazy compilation. ORC has layer concept which processes your program representation and emits the result to the layer below - examples of a layer in the trunk are LLVM IR transformation layer, Compiler layer, Object Layer
 
