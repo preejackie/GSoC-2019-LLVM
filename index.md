@@ -79,7 +79,7 @@ But we observe that those blocks often occur inside a loop or that may be a bloc
 
 Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
 
-- [Speculative Compilation](https://reviews.llvm.org/D63378) : This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack. This revision helps us to fullfill [1](#Infrastructure-to-support-speculation)
+- [Speculative Compilation](https://reviews.llvm.org/D63378) : This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack.
 
 - [New Speculate Query Implementation](https://reviews.llvm.org/D66399) : This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards.
 
