@@ -87,10 +87,10 @@ Since this is a new feature, we like to introduce it as a big changeset by follo
 
 All the revisions mentioned above got accepted,
 Merged Revisions:
-- [Speculative Compilation](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751)
-- [New Speculate Query Implementation](https://reviews.llvm.org/D66399) is committed through [rL370092](https://reviews.llvm.org/rL370092)
-- [D66289](https://reviews.llvm.org/D66289) is committed through [rL370085](https://reviews.llvm.org/rL370085)
-- [Unique JD names](https://reviews.llvm.org/D62139) is committed through (rL361215)[https://reviews.llvm.org/rL361215]
+- [Speculative Compilation](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751).
+- [New Speculate Query Implementation](https://reviews.llvm.org/D66399) is committed through [rL370092](https://reviews.llvm.org/rL370092).
+- [D66289](https://reviews.llvm.org/D66289) is committed through [rL370085](https://reviews.llvm.org/rL370085).
+- [Unique JD names](https://reviews.llvm.org/D62139) is committed through [rL361215](https://reviews.llvm.org/rL361215).
 
 ### How IR is instrumented?
 There are two ways to make speculative compilation work:
