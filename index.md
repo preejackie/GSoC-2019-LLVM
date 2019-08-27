@@ -20,16 +20,16 @@ Find me @ [![alt text][1.1]][1] [![alt text][2.1]][2]
 - [What I learn?](#what-i-learn)
 
 ### LLVM Community
-LLVM is not a million lines of code, but it is a group of people who make it possible :) This applies to all Open Source Orgs. Over time I find the culture in LLVM is extremely friendly (mainly for newcomers). LLVM developers are very friendly and kind enough to explain whatever LLVM concepts. I used to ask very stupid questions like (hey, how to traverse a Basic Block) and still does :)  Basically, they are just a bunch of cool folks! I highly recommend anyone to be part of this awesome community. Seriously, you can take my words.
+LLVM is not a million lines of code, but it is a group of people who make it possible :) This in general applies to all Open Source Orgs. Over time I find the culture in LLVM is extremely friendly (mainly for newcomers). LLVM developers are very supportive and kind enough to explain whatever complex LLVM concepts. I used to ask very stupid questions like (hey, how to traverse a Basic Block) and still does :)  Basically, they are just a bunch of cool folks! I highly recommend anyone to be part of this awesome community. Seriously, take my words for it.
 
 This wouldn’t have happened without my 2 mentors - Lang Hames & David Blaikie. Over this course of time, they gave me incredible support and helped me to understand LLVM, development process, how ORC works, etc. They both work on LLVM as their day job, Cool right?
     They replied to all of my emails, chats & questions :) I learn a ton of great stuff from them. Honestly, I’m very lucky to work with them. They ultimately became my role model.
 
 ### What is ORC?
 In LLVM, we already have ELF (Executable & Linking Format) and DWARF(Debugging With Attributed Record Formats) so include bad guys also - ORC's, just kidding :) 
-ORC is a fairly new LLVM Concurrent JIT Infrastructure, it is not very tightly coupled with LLVM though. You can write your own compilers for your own program representations (like AST, IR, or anything you call) and you can freely use components of ORC. To understand ORC you have to think from the Linker’s Perspective, that is how I can link the symbols, how I can resolve and relocate symbols? 
+ORC(On Request Compilation) is a fairly new LLVM Concurrent JIT Infrastructure, it is not very tightly coupled with LLVM though. You can write your own compilers for your own program representations (like AST, IR, or anything you call) and you can freely use components of ORC. To understand ORC you have to think from the Linker’s Perspective, that is how I can link the symbols, how I can resolve and relocate symbols? 
 
-You can add your program representations to JIT and compilers that know how to reduce your program representation to machine code. ORC know when and how to run your compilers for you, which I call the orc’s spell :) With the help of orc’s spell you can add multiple compilers and multiple program representations to your JIT, which eventually turns your JIT into a Compiler orchestration system, Isn’t exciting? 
+You can add your program representations to JIT and compilers that know how to reduce your program representation to machine code. ORC know when and how to run your compilers for you, which I call the ORC’s spell :) With the help of orc’s spell you can add multiple compilers and multiple program representations to your JIT, which eventually turns your JIT into a Compiler orchestration system, Isn’t exciting? 
 
 ORC triggers the compilation of symbols (data, function) when it is looked up via `ExecutionSession::lookup`. It also manages concurrent compilation for you: multiple compilers can run at once, and multiple concurrent lookups can be made for symbols.
 
@@ -73,19 +73,24 @@ But we observe that those blocks often occur inside a loop or that may be a bloc
 
 Since this is a new feature, we like to introduce it as a big changeset by following WIP commit style. 
 
-- [D63378](https://reviews.llvm.org/D63378) : This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack.
+- [Speculative Compilation](https://reviews.llvm.org/D63378) : This is the main patch that introduces the infrastructure needed for speculation in LLVM ORCv2, this revision includes : establishing ImplSymbolMap to track symbol location between layers, Speculator with __orc_speculator target function, preliminary IR instrumentation with no separate function global, block frequency heuristic, add custom JIT Stack.
 
-- [D66399](https://reviews.llvm.org/D66399) : This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards.
+- [New Speculate Query Implementation](https://reviews.llvm.org/D66399) : This Patch includes - Following Thread Safety Contract, Implements SequenceBB Query speculation heuristic, Implement new IR instrumentation with Per function globals and guards.
 
-- [D63377](https://reviews.llvm.org/D63377) : Avoid race conditions in debug mode.
+- [Assertion race](https://reviews.llvm.org/D63377) : Avoid race conditions in debug mode.
 
-- [D62491](https://reviews.llvm.org/D62491) : Update kaleidoscope tutorial chapter 3 to follow ORC version 2 JIT APIs.
+- [Kaleidoscope update](https://reviews.llvm.org/D62491) : Update kaleidoscope tutorial chapter 3 to follow ORC version 2 JIT APIs.
 
-- [D62139](https://reviews.llvm.org/D62139) : Ensuring unique names for facade JITDylib's for better understanding while debugging.
+- [Unique JD names](https://reviews.llvm.org/D62139) : Ensuring unique names for facade JITDylib's for better understanding while debugging.
 
 - [D66289](https://reviews.llvm.org/D66289) : Remove unimplemented query.
 
-All the revisions mentioned above got accepted, and [D63378](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751). When you read this, all the revisions will be committed in LLVM trunk. 
+All the revisions mentioned above got accepted,
+Merged Revisions:
+- [Speculative Compilation](https://reviews.llvm.org/D63378) is committed through [f5c40cb9002a](https://reviews.llvm.org/rGf5c40cb9002a7cbddec66dc4b440525ae1f14751)
+- [New Speculate Query Implementation](https://reviews.llvm.org/D66399) is committed through [rL370092](https://reviews.llvm.org/rL370092)
+- [D66289](https://reviews.llvm.org/D66289) is committed through [rL370085](https://reviews.llvm.org/rL370085)
+- [Unique JD names](https://reviews.llvm.org/D62139) is committed through (rL361215)[https://reviews.llvm.org/rL361215]
 
 ### How IR is instrumented?
 There are two ways to make speculative compilation work:
